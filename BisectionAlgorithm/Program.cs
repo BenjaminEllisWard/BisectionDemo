@@ -10,6 +10,8 @@ namespace BisectionAlgorithm
     {
         static void Main(string[] args)
         {
+            var bisect = new Bisection();
+            bisect.Run();
         }
     }
 }
