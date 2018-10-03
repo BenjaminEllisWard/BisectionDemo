@@ -11,34 +11,31 @@ namespace BisectionAlgorithm
         // Bisection method
         public void Guess(int guess, int[] list, int iterations)
         {
-            int[] firstHalf = list.Take(list.Length / 2).ToArray();
-            int[] secondHalf = list.Skip(list.Length / 2).ToArray();
-
-            // this if guess is in the greater half of array
-            if (guess > list[list.Length / 2])
-            {
-                Console.WriteLine($"{guess} is greater than middle value: {list[list.Length / 2]}");
-                // set list to half that contains guess
-                list = secondHalf;
-                // count iterations
-                iterations++;
-                Console.WriteLine($"newArray = {{{string.Join(", ", list)}}}");
-
-            }
-            // this is guess is in the lower half of array
-            else if (guess < list[list.Length / 2])
-            {
-                Console.WriteLine($"{guess} is less than middle value: {list[list.Length / 2]}");
-                list = firstHalf;
-                iterations++;
-                Console.WriteLine($"newArray = {{{string.Join(", ", list)}}}");
-            }
-            else
+            // this if guess matches the member in middle of array
+            if (guess == list[list.Length / 2])
             {
                 Console.WriteLine($"Value({guess}) found at newArray[{Array.IndexOf(list, guess)}]");
                 Console.WriteLine($"Value found after {iterations} bisections.");
                 return;
             }
+
+            // this if guess does not match member in middle of array
+            else
+            {
+                Console.WriteLine($"{guess} is {(guess > list[list.Length / 2] ? "greater" : "less")}" +
+                    $" than middle value: {list[list.Length / 2]}");
+
+                // set list to half that contains guess
+                list = guess > list[list.Length / 2] ? list.Skip(list.Length / 2).ToArray() :
+                    list.Take(list.Length / 2).ToArray();
+
+                // count iterations
+                iterations++;
+
+                // write new array with members separated by ', '
+                Console.WriteLine($"newArray = {{{string.Join(", ", list)}}}");
+            }
+
             Console.WriteLine();
             Guess(guess, list, iterations);
         }
