@@ -17,7 +17,7 @@ namespace BisectionAlgorithm
             //userGuess.Run();
 
             var userSelect = new SelectNumber();
-            userSelect.Run();
+            userSelect.Run(1, 101);
         }
     }
 }
