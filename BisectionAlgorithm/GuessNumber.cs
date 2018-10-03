@@ -55,6 +55,10 @@ namespace BisectionAlgorithm
             }
             else
             {
+                // TODO uncomment statement below when upper/lower bounds are implemented
+                //Console.Clear();
+                Console.WriteLine($"Number of guesses {iterations}");
+                Console.WriteLine();
                 Console.WriteLine($"The secret number is {(guess < number ? "greater" : "less")} than {guess}.");
             }
 

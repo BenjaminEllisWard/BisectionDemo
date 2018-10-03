@@ -16,6 +16,7 @@ namespace BisectionAlgorithm
             {
                 Console.WriteLine($"Value({guess}) found at newArray[{Array.IndexOf(list, guess)}]");
                 Console.WriteLine($"Value found after {iterations} bisections.");
+                Console.WriteLine();
                 return;
             }
 
@@ -33,7 +34,7 @@ namespace BisectionAlgorithm
                 iterations++;
 
                 // write new array with members separated by ', '
-                Console.WriteLine($"newArray = {{{string.Join(", ", list)}}}");
+                Console.WriteLine($"newArray[] = {{{string.Join(", ", list)}}}");
             }
 
             Console.WriteLine();
