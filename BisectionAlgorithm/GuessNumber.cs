@@ -8,6 +8,9 @@ namespace BisectionAlgorithm
 {
     class GuessNumber
     {
+        private int LBound = 1;
+        private int UBound = 1000;
+
         public int SelectRndNum()
         {
             var rnd = new Random();
@@ -15,11 +18,11 @@ namespace BisectionAlgorithm
         }
 
         // returns an int guessed by user
-        public int Guess()
+        public int Guess(int lBound, int uBound)
         {
             try
             {
-                Console.WriteLine("Guess a number between 1 and 1000");
+                Console.WriteLine($"Guess a number between {lBound} and {uBound}");
                 // user inputs guess
                 int guess = Int32.Parse(Console.ReadLine());
 
@@ -37,7 +40,7 @@ namespace BisectionAlgorithm
             }
 
             // Recursion executes only if method cannot return a value from try block above
-            return Guess();
+            return Guess(lBound, uBound);
         }
 
         // checks if guess == number, tells user if guess is over/under, then recurses
@@ -55,8 +58,10 @@ namespace BisectionAlgorithm
             }
             else
             {
-                // TODO uncomment statement below when upper/lower bounds are implemented
-                //Console.Clear();
+                this.UBound = guess > number ? guess - 1 : this.UBound;
+                this.LBound = guess < number ? guess + 1 : this.LBound;
+
+                Console.Clear();
                 Console.WriteLine($"Number of guesses {iterations}");
                 Console.WriteLine();
                 Console.WriteLine($"The secret number is {(guess < number ? "greater" : "less")} than {guess}.");
@@ -64,12 +69,12 @@ namespace BisectionAlgorithm
 
             Console.WriteLine();
             // Guess() is called from parameter list before recursion.
-            HighOrLow(number, Guess(), iterations);
+            HighOrLow(number, Guess(this.LBound, this.UBound), iterations);
         }
 
         public void Run()
         {
-            HighOrLow(SelectRndNum(), Guess(), 0);
+            HighOrLow(SelectRndNum(), Guess(this.LBound, this.UBound), 0);
         }
     }
 }
