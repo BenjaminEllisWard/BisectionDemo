@@ -111,21 +111,20 @@ namespace BisectionAlgorithm
             {
                 array[Array.IndexOf(array, i)] = value++;
             }
-
+            
             return array;
         }
-
+        
         public void Run()
         {
             // Make an array
-            int size = UserInputArray();
-            int[] beginArray = new int[size];
+            int[] beginArray = new int[UserInputArray()];
             beginArray = AssignArray(beginArray);
 
             // Provide a value to search within array
             int guess = UserInputInt(beginArray);
 
-            // Bisect array recursively until guess = middle value of array
+            // Bisect array recursively until guess == middle value of array
             Guess(guess, beginArray, 0);
         }
     }
