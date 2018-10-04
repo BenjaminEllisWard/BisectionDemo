@@ -11,7 +11,7 @@ namespace BisectionAlgorithm
         // User selects a number from a range. Range is defined by two parameters(declared in SelectNumber.Run()).
         public int Select(Bounds bounds)
         {
-            Console.WriteLine($"Select a number {bounds.LowerBound} - {bounds.UpperBound - 1}");
+            Console.WriteLine($"Select your secret number {bounds.LowerBound} - {bounds.UpperBound - 1}");
 
             try
             {
@@ -48,6 +48,18 @@ namespace BisectionAlgorithm
         // This method recurses until guess == selected value.
         public void Hint(int number, int guess, int iterations, Bounds bounds)
         {
+            // Lie detection. Runtime enters this block if upper and lower bounds converge
+            // without containing the computer's guess. Located at top of this block, since
+            // bounds are set in switch statement later in the method before recursion.
+            if (number < bounds.LowerBound || number >= bounds.UpperBound)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You are a liar. Never play this game again.");
+                Console.WriteLine();
+                return;
+            }
+
+            // main display
             Console.Clear();
             Console.WriteLine($"Number of guesses: {iterations}");
             Console.WriteLine();
@@ -61,6 +73,7 @@ namespace BisectionAlgorithm
             {
                 int option = Int32.Parse(Console.ReadLine());
 
+
                 switch (option)
                 {
                     case 1:
@@ -70,7 +83,7 @@ namespace BisectionAlgorithm
                         bounds.LowerBound = guess + 1;
                         break;
                     case 3:
-                        Console.Clear();
+                        Console.WriteLine();
                         Console.WriteLine($"Computer guessed the number in ({iterations}) tries.");
                         Console.WriteLine();
                         return;
