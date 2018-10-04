@@ -9,7 +9,7 @@ namespace BisectionAlgorithm
     class Bisection
     {
         // Bisection method
-        public void Guess(int guess, int[] list, int iterations)
+        public void Bisect(int guess, int[] list, int iterations)
         {
             // this if guess matches the member in middle of array
             if (guess == list[list.Length / 2])
@@ -38,29 +38,33 @@ namespace BisectionAlgorithm
             }
 
             Console.WriteLine();
-            Guess(guess, list, iterations);
+
+            // Calls this method recursively, passing the half of the original list that contains the number.
+            Bisect(guess, list, iterations);
         }
 
         // Returns user input as an int to determine the number that will be searched for within an array.
+        // Method recurses if user does not input an int within parameter array's length.
         public int UserInputInt(int[] list)
         {
             try
             {
                 Console.WriteLine($"Select a number 1 - {list[list.Length - 1]}");
-                int guess = Int32.Parse(Console.ReadLine());
+                int searchValue = Int32.Parse(Console.ReadLine());
                 Console.WriteLine();
 
-                if (guess < list.Length && guess > 0)
+                if (searchValue < list.Length && searchValue > 0)
                 {
-                    return guess;
+                    return searchValue;
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Invalid input. Try again.");
                     Console.WriteLine();
-                    guess = UserInputInt(list);
-                    return guess;
+
+                    searchValue = UserInputInt(list);
+                    return searchValue;
                 }
             }
             catch (Exception)
@@ -68,27 +72,30 @@ namespace BisectionAlgorithm
                 Console.Clear();
                 Console.WriteLine("Invalid input. Try again.");
                 Console.WriteLine();
-            }
 
-            int otherGuess = UserInputInt(list);
-            return otherGuess;
+                int searchValue = UserInputInt(list);
+                return searchValue;
+            }
         }
 
-        // User input returns an int that will determine size of array created in Run().
-        public int UserInputArray()
+        // User input returns an int that will determine length of array created in Run().
+        public int UserInputArrayLength()
         {
             try
             {
                 Console.WriteLine("How big is your array?");
+
+                // user input
                 int size = Int32.Parse(Console.ReadLine());
                 Console.WriteLine();
 
+                // If input is invalid, method is called recursively to assign size.
                 if (size <= 0)
                 {
                     Console.Clear();
                     Console.WriteLine("Invalid negative or zero input. Try again.");
                     Console.WriteLine();
-                    size = UserInputArray();
+                    size = UserInputArrayLength();
                 }
                 return size;
             }
@@ -99,12 +106,12 @@ namespace BisectionAlgorithm
                 Console.WriteLine();
             }
 
-                int otherSize = UserInputArray();
+                int otherSize = UserInputArrayLength();
                 return otherSize;
         }
 
-        // Assigns an array's elements to incrementing int values starting at 1 and then returns that same array.
-        public int[] AssignArray(int[] array)
+        // Assigns an array's elements to incrementing int values starting at 1 and then returns assigned array.
+        public int[] AssignArrayElements(int[] array)
         {
             int value = 1;
             foreach (int i in array)
@@ -118,14 +125,14 @@ namespace BisectionAlgorithm
         public void Run()
         {
             // Make an array
-            int[] beginArray = new int[UserInputArray()];
-            beginArray = AssignArray(beginArray);
+            int[] beginArray = new int[UserInputArrayLength()];
+            beginArray = AssignArrayElements(beginArray);
 
             // Provide a value to search within array
-            int guess = UserInputInt(beginArray);
+            int searchValue = UserInputInt(beginArray);
 
             // Bisect array recursively until guess == middle value of array
-            Guess(guess, beginArray, 0);
+            Bisect(searchValue, beginArray, 0);
         }
     }
 }
