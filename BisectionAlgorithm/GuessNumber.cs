@@ -8,26 +8,23 @@ namespace BisectionAlgorithm
 {
     class GuessNumber
     {
-        private int LBound = 1;
-        private int UBound = 1000;
-
-        public int SelectRndNum()
+        public int SelectRndNum(Bounds bounds)
         {
             var rnd = new Random();
-            return rnd.Next(1, 1001);
+            return rnd.Next(bounds.LowerBound, bounds.UpperBound);
         }
 
         // returns an int guessed by user
-        public int Guess(int lBound, int uBound)
+        public int Guess(Bounds bounds)
         {
             try
             {
-                Console.WriteLine($"Guess a number between {lBound} and {uBound}");
+                Console.WriteLine($"Guess a number between {bounds.LowerBound} and {bounds.UpperBound - 1}");
                 // user inputs guess
                 int guess = Int32.Parse(Console.ReadLine());
 
                 // return value and exit the method if guess is a valid input between 1 and 1000
-                if (guess > 0 && guess < 1001)
+                if (guess >= bounds.LowerBound && guess < bounds.UpperBound)
                 {
                     return guess;
                 }
@@ -40,11 +37,11 @@ namespace BisectionAlgorithm
             }
 
             // Recursion executes only if method cannot return a value from try block above
-            return Guess(lBound, uBound);
+            return Guess(bounds);
         }
 
         // checks if guess == number, tells user if guess is over/under, then recurses
-        public void HighOrLow(int number, int guess, int iterations)
+        public void HighOrLow(int number, int guess, int iterations, Bounds bounds)
         {
             iterations++;
             
@@ -58,8 +55,8 @@ namespace BisectionAlgorithm
             }
             else
             {
-                this.UBound = guess > number ? guess - 1 : this.UBound;
-                this.LBound = guess < number ? guess + 1 : this.LBound;
+                bounds.UpperBound = guess > number ? guess : bounds.UpperBound;
+                bounds.LowerBound = guess < number ? guess + 1 : bounds.LowerBound;
 
                 Console.Clear();
                 Console.WriteLine($"Number of guesses {iterations}");
@@ -69,12 +66,12 @@ namespace BisectionAlgorithm
 
             Console.WriteLine();
             // Guess() is called from parameter list before recursion.
-            HighOrLow(number, Guess(this.LBound, this.UBound), iterations);
+            HighOrLow(number, Guess(bounds), iterations, bounds);
         }
 
-        public void Run()
+        public void Run(Bounds bounds)
         {
-            HighOrLow(SelectRndNum(), Guess(this.LBound, this.UBound), 0);
+            HighOrLow(SelectRndNum(bounds), Guess(bounds), 0, bounds);
         }
     }
 }

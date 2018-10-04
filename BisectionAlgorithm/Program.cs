@@ -10,14 +10,14 @@ namespace BisectionAlgorithm
     {
         static void Main(string[] args)
         {
-            var bisect = new Bisection();
-            bisect.Run();
+            //var bisect = new Bisection();
+            //bisect.Run();
 
             var userGuess = new GuessNumber();
-            userGuess.Run();
+            userGuess.Run(new Bounds(1, 1001));
 
             var userSelect = new SelectNumber();
-            userSelect.Run(1, 101);
+            userSelect.Run(new Bounds(1, 101));
         }
     }
 }

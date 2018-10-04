@@ -9,9 +9,9 @@ namespace BisectionAlgorithm
     class SelectNumber
     {
         // User selects a number from a range. Range is defined by two parameters(declared in SelectNumber.Run()).
-        public int Select(int lowB, int upB)
+        public int Select(Bounds bounds)
         {
-            Console.WriteLine($"Select a number {lowB} - {upB - 1}");
+            Console.WriteLine($"Select a number {bounds.LowerBound} - {bounds.UpperBound - 1}");
 
             try
             {
@@ -19,7 +19,7 @@ namespace BisectionAlgorithm
 
                 // Ensures that user selects a value within range. Notice the difference between the conditions on the inclusion of
                 // '=' in the statement reflects the behavior the behavior of the parameters in Random.Next(int, int). 
-                if (num >= lowB && num < upB)
+                if (num >= bounds.LowerBound && num < bounds.UpperBound)
                 {
                     Console.WriteLine();
                     return num;
@@ -34,19 +34,19 @@ namespace BisectionAlgorithm
             }
             Console.WriteLine();
             // This statement is reached only when the runtime does not enter the if block above.
-            return Select(lowB, upB);
+            return Select(bounds);
         }
 
         // Computer selects a random number within a range defined by the method's parameters.
-        public int Guess(int lowerBound, int upperBound)
+        public int Guess(Bounds bounds)
         {
             var rnd = new Random();
-            return rnd.Next(lowerBound, upperBound);
+            return rnd.Next(bounds.LowerBound, bounds.UpperBound);
         }
 
         // User tells computer whether its guess is over/under the users selected int value.
         // This method recurses until guess == selected value.
-        public void Hint(int number, int guess, int iterations, int lowB, int upB)
+        public void Hint(int number, int guess, int iterations, Bounds bounds)
         {
             Console.Clear();
             Console.WriteLine($"Number of guesses: {iterations}");
@@ -64,10 +64,10 @@ namespace BisectionAlgorithm
                 switch (option)
                 {
                     case 1:
-                        upB = guess;
+                        bounds.UpperBound = guess;
                         break;
                     case 2:
-                        lowB = guess + 1;
+                        bounds.LowerBound = guess + 1;
                         break;
                     case 3:
                         Console.Clear();
@@ -77,7 +77,7 @@ namespace BisectionAlgorithm
                     default:
                         Console.Clear();
                         Console.WriteLine("Invalid input. Try again.");
-                        Hint(number, guess, iterations, lowB, upB);
+                        Hint(number, guess, iterations, bounds);
                         return;
                 }
             }
@@ -86,19 +86,19 @@ namespace BisectionAlgorithm
                 Console.Clear();
                 Console.WriteLine("Invalid input. Try again.");
                 Console.WriteLine();
-                Hint(number, guess, iterations, lowB, upB);
+                Hint(number, guess, iterations, bounds);
                 return;
             }
             // Increments only when a new guess is called. Recursions above pass the same guess value
             // that entered the method when user's input is invalid.
             iterations++;
-            Hint(number, Guess(lowB, upB), iterations, lowB, upB);
+            Hint(number, Guess(bounds), iterations, bounds);
         }
 
-        // Parameters must be ints greater than 0, where upB >= lowB.
-        public void Run(int lowB, int upB)
+        // Parameters must be ints greater than 0, where bounds.UpperBound >= bounds.LowerBound.
+        public void Run(Bounds bounds)
         {
-            Hint(Select(lowB, upB), Guess(lowB, upB), 1, lowB, upB);
+            Hint(Select(bounds), Guess(bounds), 1, bounds);
         }
     }
 }
