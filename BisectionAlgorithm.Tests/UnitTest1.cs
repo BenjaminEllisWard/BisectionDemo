@@ -6,6 +6,7 @@ namespace BisectionAlgorithm.Tests
     [TestClass]
     public class UnitTest1
     {
+        // I used this test to confirm the bound of the second Random.Next() parameter.
         [TestMethod]
         public void TestMethod1()
         {
